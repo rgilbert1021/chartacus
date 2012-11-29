@@ -7,11 +7,11 @@ block content
 
   p #{message}
   form(method="post",action="/login")
-    input(type="text",name="username")
-    input(type="text",name="password")
+    input(type="text",name="username",value="foo")
+    input(type="password",name="password",value="bar")
     input(type="submit",value="Login")
 
-  h1 Sign Up
+  h1.nyi Sign Up
   form(method="post",action="/create")
     input(type="text",name="email")
     input(type="text",name="password")
