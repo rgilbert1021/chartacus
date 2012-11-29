@@ -110,13 +110,13 @@ app.get('/chart/:key', function(req, res) {
   case "1":
     key = {
       uuid: req.params.key,
-      private: true
+      public: true
     }
     break;
   case "2":
     key = {
       uuid: req.params.key,
-      private: false
+      public: false
     }
     break;
   default:
@@ -128,12 +128,12 @@ app.get('/chart/:key', function(req, res) {
     res.render('404');
   } else {
     app.locals.key = key;
-    if(!key.private) {
+    if(key.public) {
       // Key exists and is public
       res.render('publicChart');
     } else {
       // Key is private
-      if(!req.session.user, {key: key}) {
+      if(!req.session.user) {
         // No session, redirect to login
         res.render('login');
       } else {
