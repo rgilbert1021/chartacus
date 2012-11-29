@@ -1,0 +1,15 @@
+extends layout
+block content
+
+  h1 Login
+  p #{message}
+  form(method="post",action="/login")
+    input(type="text",name="username")
+    input(type="text",name="password")
+    input(type="submit",value="Login")
+
+  h1 Sign Up
+  form(method="post",action="/create")
+    input(type="text",name="email")
+    input(type="text",name="password")
+    input(type="submit",value="Create")
