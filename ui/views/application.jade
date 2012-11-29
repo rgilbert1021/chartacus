@@ -1,8 +1,17 @@
 extends layout
 block content
   script(type='text/javascript')
-      console.log(this);
-      chartacus = {
+      window.chartacus = {
         user: !{JSON.stringify(user)}
       }
-  h1 Welcome to your dashboard, {{user.name}}
+  .container-fluid
+    h1 Welcome to your dashboard, {{chartacus.user.name}}
+      br
+      small this is a header
+      hr
+    ng-view
+
+
+  script(src='//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js')
+  script(src='../scripts/app.js')
+  script(src='../scripts/controllers/AppCtrl.js')
