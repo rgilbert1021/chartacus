@@ -1,4 +1,43 @@
 extends layout
 
 block content
-  h1 Sup
+  .header
+    .row-fluid
+      .span2
+        img.img-rounded(src="http://placehold.it/140x140")
+      .span8
+        h1 Chartacus
+          br
+          small.tagline Painless, zero-config, real-time charting
+      .span2
+        #signin.btn-link.btn-large.pull-right Login
+  .content.container
+    .row-fluid
+      .span4
+        h2 Grab a key
+          #key
+      .span4
+        h2 Send some data
+          #data
+      #metrics.span4
+        h2 See your metrics
+          #demo
+          script(src='scripts/fp.js')
+  .footer
+    .row-fluid
+      .span3
+        ul
+          li
+            a(href='/product/tour') Product
+      .span3
+        ul
+          li
+            a(href='/uses/') Uses
+      .span3
+        ul
+          li
+            a(href='/support/') Support
+      .span3
+        ul
+          li
+            a(href='/about/') Company
