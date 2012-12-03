@@ -10,12 +10,16 @@ block content
           br
           small.tagline Painless, zero-config, real-time charting
       .span2
-        #signin.btn-link.btn-large.pull-right Login
+        #signin.btn-link.btn-large.pull-right 
+          a(href='/login') Login
+        #signup.btn-link.btn-large.pull-right 
+          a(href='/signup') Sign Up
   .content.container
     .row-fluid
       .span4
-        h2 Grab a key
+        h2 Grab an API key
           #key
+            p Copy #{uuid} to your clipboard
       .span4
         h2 Send some data
           #data

@@ -3,12 +3,12 @@
  */
 
 module.exports = function (socket) {
-  socket.emit('send:name', {
+  socket.emit('news', {
     name: 'Bob'
   });
 
   setInterval(function () {
-    socket.emit('send:time', {
+    socket.emit('news', {
       time: (new Date()).toString()
     });
   }, 1000);

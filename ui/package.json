@@ -11,6 +11,7 @@
     "redis": "*",
     "socket.io": "*",
     "node-uuid": "*",
-    "crypto": "*"
+    "crypto": "*",
+    "mongoose":"*"
   }
 }

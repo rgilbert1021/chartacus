@@ -1,1 +1,5 @@
-h2 I'm an AngularJS partial, {{chartacus.user.name}}.  You should know that
+h2 I'm an AngularJS partial, {{chartacus.user.email}}.  Here's some stats
+ul
+  li(ng-show="lastValue") The most recent value I heard was {{lastValue}}
+  li The total number of data in this session is {{count}}
+  li(ng-show="pps") Data is incoming at {{pps}} datapoints per second

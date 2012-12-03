@@ -5,10 +5,16 @@ block content
         user: !{JSON.stringify(user)}
       }
   .container-fluid
-    h1 Welcome to your dashboard, {{chartacus.user.name}}
-      br
-      small this is a header
-      hr
+    .row-fluid
+      .span11
+        h1 Welcome to your dashboard, #{user.email}
+          br
+          small #{user.key}
+      .span1
+        .btn-link
+          a(href='/logout') Logout
+
+    hr
     ng-view
 
 
