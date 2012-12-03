@@ -12,7 +12,7 @@ $ git clone https://github.com/jmandzik/chartacus.git
 
 2. Install redis 
 ```
-$ wget http://redis.googlecode.com/files/redis-2.6.6.tar.gz
+$ curl -O http://redis.googlecode.com/files/redis-2.6.6.tar.gz
 $ tar xzf redis-2.6.6.tar.gz
 $ cd redis-2.6.6
 $ make
@@ -29,8 +29,11 @@ $ /opt/redis/redis-server
 4. Install MongoDB (takes a very long time to build from source... grabbing a binary)
 ```
 $ sudo mkdir -p /opt/mongo/ && sudo cd /opt/mongo
-$ wget http://fastdl.mongodb.org/osx/mongodb-osx-x86_64-2.2.2.tgz
+$ curl -O http://fastdl.mongodb.org/osx/mongodb-osx-x86_64-2.2.2.tgz
 $ tar xvf mongodb-osx-x86_64-2.2.2.tgz
+$ cd mongodb-osx-x86_64-2.2.2/
+$ mv * ../
+$ sudo mkdir -p /data/db/
 ```
 
 5. Start mongo (add /opt/mongo/bin to your PATH)
