@@ -26,15 +26,38 @@ $ sudo cp redis-cli /opt/redis/ && sudo cp redis-server /opt/redis/
 $ /opt/redis/redis-server
 ```
 
-4. Install web server dependencies
+4. Install MongoDB (takes a very long time to build from source... grabbing a binary)
+```
+$ sudo mkdir -p /opt/mongo/ && sudo cd /opt/mongo
+$ wget http://fastdl.mongodb.org/osx/mongodb-osx-x86_64-2.2.2.tgz
+$ tar xvf mongodb-osx-x86_64-2.2.2.tgz
+```
+
+5. Start mongo (add /opt/mongo/bin to your PATH)
+```
+$ mongod
+```
+
+6. Install web server dependencies
 ```
 $ cd [PATH_TO_PROJECT]/ui
 $ npm install
 ```
 
-5. Start the UI server
+7. Start the UI server
 ```
 $ node server.js
+```
+
+8. Install TCP server dependencies
+```
+$ cd [PATH_TO_PROJECT]/api/tcp
+$ npm install
+```
+
+9. Start TCP API listener
+```
+$ node listener
 ```
 
 Notes
