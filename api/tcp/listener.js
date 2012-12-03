@@ -6,7 +6,7 @@ var memStore = redis.createClient();
 var socket = net.createConnection(1407, '127.0.0.1');
 
 socket.on('connect', function(connect) {
-  console.log('connection established');
+  console.log('Socket established with UI server on port 1407');
   
 
   socket.on('end', function() {
@@ -31,6 +31,7 @@ listener = net.createServer(function(stream) {
 
   });
 });
+console.log('TCP listener listening on port 1409');
 listener.listen(1409);
 
 

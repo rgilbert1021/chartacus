@@ -247,7 +247,7 @@ app.post('/signup', function(req, res) {
                 // or in this case the entire user object
                 req.session.user = user;
                 req.session.success = 'Authenticated as ' + user.name + ' click to <a href="/logout">logout</a>. ' + ' You may now access <a href="/application">/application</a>.';
-                app.locals.user = user;
+                app.locals.session = req.session;
                 res.redirect('/dashboard/');
               });
             } else {
