@@ -2,7 +2,8 @@ extends layout
 block content
   script(type='text/javascript')
       window.chartacus = {
-        user: !{JSON.stringify(user)}
+        user: !{JSON.stringify(user)},
+        session: !{JSON.stringify(session)}
       }
   .container-fluid
     .row-fluid

@@ -1,12 +1,13 @@
 extends layout
 block content
-
-  h1 Login
-    br 
-    small log in with 'foo' and 'bar'
-
-  p #{message}
-  form(method="post",action="/login")
-    input(type="text",name="username",value="foo")
-    input(type="password",name="password",value="bar")
-    input(type="submit",value="Login")
+  .row-fluid
+    .offset4.span4
+      center
+        h1 Login
+        p #{message}
+        form(method="post",action="/login")
+          input(type="text",name="username",placeholder="Email")
+          br
+          input(type="password",name="password",placeholder="Password")
+          br
+          input.btn(type="submit",value="Login")

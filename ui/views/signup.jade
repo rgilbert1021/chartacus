@@ -1,9 +1,13 @@
 extends layout
 block content
-
-  h1 Sign Up
-
-  form(method="post",action="/signup")
-    input(type="text",name="username")
-    input(type="password",name="password")
-    input(type="submit",value="Create")
+  .row-fluid
+    .offset4.span4
+      center
+        h1 Sign Up
+        p #{message}  
+        form(method="post",action="/signup")
+          input(type="text",name="username")
+          br
+          input(type="password",name="password")
+          br
+          input.btn(type="submit",value="Create")

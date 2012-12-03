@@ -78,35 +78,23 @@ function authenticate(name, pass, fn) {
     email: name
   }, function(err, user) {
     if(err) {
-      req.session.error = 'Authentication failed, please check your ' + ' username and password.' + ' (use "foo" and "foobar")';
+      req.session.error = 'Authentication failed, please check your email and password.';
       res.redirect('login');
     }
     if(user) {
+      // Found the record, now check the hash
       hash(pass, user.salt, function(err, hash) {
         if(err) return fn(err);
         if(hash == user.hash) return fn(null, user);
         fn(new Error('invalid password'));
       })
-      // fn(null, user);
     } else {
+      // Bad password
       fn("Invalid credentials", null);
     }
 
   })
 
-
-  // if(!module.parent) console.log('authenticating %s:%s', name, pass);
-  // var user = users[name];
-  // // query the db for the given username
-  // if(!user) return fn(new Error('cannot find user'));
-  // // apply the same algorithm to the POSTed password, applying
-  // // the hash against the pass / salt, if there is a match we
-  // // found the user
-  // hash(pass, user.salt, function(err, hash) {
-  //   if(err) return fn(err);
-  //   if(hash == user.hash) return fn(null, user);
-  //   fn(new Error('invalid password'));
-  // })
 }
 
 function restrict(req, res, next) {
@@ -194,14 +182,12 @@ app.post('/login', function(req, res) {
         // Store the user's primary key 
         // in the session store to be retrieved,
         // or in this case the entire user object
-        req.session.user = user;
-        req.session.success = 'Authenticated as ' + user.name + ' click to <a href="/logout">logout</a>. ' + ' You may now access <a href="/application">/application</a>.';
-        console.log(app.locals);
-        console.log(req.url);
+        req.session.user = {key:user.key, email:user.email};
+        app.locals.session = req.session;
         res.redirect('/dashboard/');
       });
     } else {
-      req.session.error = 'Authentication failed, please check your ' + ' username and password.' + ' (use "foo" and "foobar")';
+      req.session.error = 'Authentication failed, please check your email and password.';
       res.redirect('login');
     }
   });
@@ -227,46 +213,52 @@ app.get('/signup', function(req, res) {
   res.render('signup');
 });
 app.post('/signup', function(req, res) {
-  var key = uuid.v4();
 
-  hash(req.body.password, function(err, salt, hash) {
-    if(err) throw err;
-    // store the salt & hash in the "db"
-    var user = new User({
-      email: req.body.username,
-      hash: hash,
-      salt: salt,
-      key: key
-    });
+  if(!req.body.password) {
+    req.session.error = "Did you forget to supply a password?";
+    res.redirect('signup');
+  } else {
+    var key = uuid.v4();
 
-    user.save(function(err) {
-      if(err) {
-        // bail...
-      }
+    hash(req.body.password, function(err, salt, hash) {
+      if(err) throw err;
+      // store the salt & hash in the "db"
+      var user = new User({
+        email: req.body.username,
+        hash: hash,
+        salt: salt,
+        key: key
+      });
 
-      memStore.set(key, "private");
-      authenticate(req.body.username, req.body.password, function(err, user) {
-        if(user) {
-          // Regenerate session when signing in
-          // to prevent fixation 
-          req.session.regenerate(function() {
-            // Store the user's primary key 
-            // in the session store to be retrieved,
-            // or in this case the entire user object
-            req.session.user = user;
-            req.session.success = 'Authenticated as ' + user.name + ' click to <a href="/logout">logout</a>. ' + ' You may now access <a href="/application">/application</a>.';
-            app.locals.user = user;
-
-
-            res.redirect('/dashboard/');
-          });
+      user.save(function(err) {
+        if(err) {
+          // bail...
+          req.session.error = "The email address '" + req.body.username + "' has already been registered.";
+          res.redirect('signup');
         } else {
-          req.session.error = 'Authentication failed, please check your ' + ' username and password.' + ' (use "foo" and "foobar")';
-          res.redirect('login');
+          memStore.set(key, "private");
+          authenticate(req.body.username, req.body.password, function(err, user) {
+            if(user) {
+              // Regenerate session when signing in
+              // to prevent fixation 
+              req.session.regenerate(function() {
+                // Store the user's primary key 
+                // in the session store to be retrieved,
+                // or in this case the entire user object
+                req.session.user = user;
+                req.session.success = 'Authenticated as ' + user.name + ' click to <a href="/logout">logout</a>. ' + ' You may now access <a href="/application">/application</a>.';
+                app.locals.user = user;
+                res.redirect('/dashboard/');
+              });
+            } else {
+              req.session.error = 'Authentication failed, please check your email and password.';
+              res.redirect('login');
+            }
+          });
         }
       });
     });
-  });
+  }
 });
 
 //////////////////////////////////
