@@ -12,6 +12,7 @@
     "socket.io": "*",
     "node-uuid": "*",
     "crypto": "*",
+    "underscore": "*",
     "mongoose":"*"
   }
 }

@@ -1,47 +1,97 @@
 extends layout
 
 block content
-  .header
-    .row-fluid
-      .span2
-        img.img-rounded(src="http://placehold.it/140x140")
-      .span8
-        h1 Chartacus
-          br
-          small.tagline Painless, zero-config, real-time charting
-      .span2
-        #signin.btn-link.btn-large.pull-right 
-          a(href='/login') Login
-        #signup.btn-link.btn-large.pull-right 
-          a(href='/signup') Sign Up
-  .content.container
-    .row-fluid
+  script
+    window.uuid = !{JSON.stringify(uuid)}
+    socket.emit('pair',uuid);
+  .container
+    .header
+      .row-fluid
+        .span2
+          img.img-rounded(src="http://placehold.it/140x140")
+        .span8
+          h1 Chartacus
+
+        .span2
+          .row
+            #signin.btn-link.btn-large.pull-right 
+              a(href='/login') Login
+            #signup.btn-link.btn-large.pull-right 
+              a(href='/signup') Sign Up
+  #myCarousel.carousel.slide
+    .carousel-inner
+      .item.active
+        img(src='/images/bg_developers.jpg', alt='')
+        .container
+          .carousel-caption
+            h1 Painless, real-time charting.
+            p.lead
+              | Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+            a.btn.btn-large.btn-primary(href='#') Sign up today
+  .container.marketing
+    .row
       .span4
-        h2 Grab an API key
-          #key
-            p Copy #{uuid} to your clipboard
+        h2 Grab your key
+        p
+          | Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+        p
+          a.btn(href='#grabakey') View details »
       .span4
         h2 Send some data
-          #data
-      #metrics.span4
+        p
+          | Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+        p
+          a.btn(href='#sendsomedata') View details »
+      .span4
         h2 See your metrics
-          #demo
-          script(src='scripts/fp.js')
-  .footer
-    .row-fluid
-      .span3
-        ul
-          li
-            a(href='/product/tour') Product
-      .span3
-        ul
-          li
-            a(href='/uses/') Uses
-      .span3
-        ul
-          li
-            a(href='/support/') Support
-      .span3
-        ul
-          li
-            a(href='/about/') Company
+        p
+          | Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+        p
+          a.btn(href='#seeyourdata') View details »
+    #grabakey.hr.featurette-divider
+    .featurette
+      .row-fluid
+        h2.span6.featurette-heading
+          | Grab a key and go.
+          br
+          //- span.muted Grab a key and go.
+          p.lead
+            | A new weapon in your developer arsenal. Every key is unique. Use the key to the right to start graphing your data.  Painless to get started.
+        .span1
+        #keyCode.span5    
+          p.pull-right This is
+            strong  your 
+            | key.  Seriously.
+          br
+          pre 
+            span.key #{uuid}
+    #sendsomedata.hr.featurette-divider
+    .featurette
+      .row-fluid
+        h2.span6.featurette-heading
+          | Convention over configuration
+          p.lead
+            | There's drop in code for Node.js, Ruby, *shell, PHP, Perl and more.  Nothing to set up, nothing to tear down. It can be as easy as pasting the line to your right into a Terminal window.
+        .span1
+        #dataCode.span5
+          pre $ echo "
+            span.key #{uuid}
+            | " | nc localhost 1409          
+    #seeyourdata.hr.featurette-divider
+    .featurette
+      .row-fluid
+        h2.span6.featurette-heading
+          | Your data. Real-time.
+          p.lead
+            | There's drop in code for Node.js, Ruby, *shell, PHP, Perl and more.  Nothing to set up, nothing to tear down. It can be as easy as pasting the line to your right into a Terminal window
+        #chart.span6
+    hr.featurette-divider
+    footer
+      p.pull-right
+        a(href='#') Back to top
+      p
+        | © 2012 Mandzik Labs
+        | ·
+        a(href='#') Documentation
+        | ·
+        a(href='#') Support

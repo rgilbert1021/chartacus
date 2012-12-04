@@ -1,6 +1,5 @@
 function AppCtrl($scope, $http, $routeParams, $location, $route) {
-    $scope.data = [];
-  socket.emit('pair',chartacus.user.key);
+  $scope.data = [];
   socket.on('data', function(data){
     console.log(data);
     $scope.$apply($scope.count = data.count);

@@ -9,9 +9,10 @@ var express = require('express'),
   net = require('net'),
   path = require('path'),
   redis = require('redis'),
-  socket = require('./routes/socket.js'),
+  // socket = require('./routes/socket.js'),
   uuid = require('node-uuid'),
   mongoose = require('mongoose'),
+  _ = require('underscore'),
   hash = require('./pass').hash;
 
 
@@ -182,7 +183,10 @@ app.post('/login', function(req, res) {
         // Store the user's primary key 
         // in the session store to be retrieved,
         // or in this case the entire user object
-        req.session.user = {key:user.key, email:user.email};
+        req.session.user = {
+          key: user.key,
+          email: user.email
+        };
         app.locals.session = req.session;
         res.redirect('/dashboard/');
       });
@@ -278,21 +282,31 @@ var activeSockets = {};
 tcpListener = net.createServer(function(stream) {
   stream.setEncoding('ascii');
   stream.on('data', function(data) {
+    console.log("heard new data");
     var now = +new Date();
     var tokens = data.split('|');
     if(!activeSockets[tokens[0]]) {
       activeSockets[tokens[0]] = {};
       activeSockets[tokens[0]].data = [];
+      activeSockets[tokens[0]].buffer = [];
+      activeSockets[tokens[0]].handle = setInterval(function() {
+        var sum = _.reduce(activeSockets[tokens[0]].buffer, function(memo, num) {
+          return memo + num;
+        }, 0);
+        if(activeSockets[tokens[0]].socket) {
+          console.log("emitting " + 'data-' + tokens[0]);
+        }
+        activeSockets[tokens[0]].socket && activeSockets[tokens[0]].socket.emit('data-' + tokens[0], [+new Date(), sum])
+        activeSockets[tokens[0]].buffer = [];
+      }, 1000);
     }
-    activeSockets[tokens[0]].data && activeSockets[tokens[0]].data.push({
-      timestamp: now,
-      value: tokens[1]
-    });
-    activeSockets[tokens[0]].socket && activeSockets[tokens[0]].socket.emit('data', {
-      timestamp: now,
-      value: tokens[1],
-      count: activeSockets[tokens[0]].data.length
-    });
+    activeSockets[tokens[0]].data && activeSockets[tokens[0]].data.push(1);
+    activeSockets[tokens[0]].buffer && activeSockets[tokens[0]].buffer.push(1);
+    // activeSockets[tokens[0]].socket && activeSockets[tokens[0]].socket.emit('data', {
+    //   timestamp: now,
+    //   value: tokens[1],
+    //   count: activeSockets[tokens[0]].data.length
+    // });
   });
 });
 tcpListener.listen(1407);
@@ -301,14 +315,43 @@ tcpListener.listen(1407);
 var io = require('socket.io').listen(server);
 io.sockets.on('connection', function(socket) {
   socket.on('pair', function(key) {
+    console.log("paired with " + key)
+    socket.key = key;
     if(!activeSockets[key]) {
       activeSockets[key] = {};
       activeSockets[key].data = [];
+      activeSockets[key].buffer = [];
+      activeSockets[key].socket = socket;
+      activeSockets[key].handle = setInterval(function() {
+        var sum = _.reduce(activeSockets[key].buffer, function(memo, num) {
+          return memo + num;
+        }, 0);
+
+        var now = +new Date();
+        activeSockets[key].socket && activeSockets[key].socket.emit('data-' + key, [now, sum])
+        activeSockets[key].buffer = [];
+        console.log("emitting to " + key);
+        if((now - activeSockets[key].lastHeard) > 60000) {
+          clearInterval(activeSockets[socket.key].handle);
+        }
+      }, 1000);
     }
-    activeSockets[key].socket = socket;
-    socket.emit('data', {
-      count: activeSockets[key].data.length
-    })
+    // socket.emit('data', {
+    //   count: activeSockets[key].data.length
+    // })
+  });
+
+  socket.on('ack', function() {
+    var now = +new Date();
+    if(activeSockets[socket.key]) {
+      activeSockets[socket.key].lastHeard = now;
+    }
+
+  })
+
+  socket.on('disconnect', function() {
+    io.sockets.emit('user disconnected');
+    activeSockets[socket.key] && clearInterval(activeSockets[socket.key].handle);
   });
 });
 io.set('log level', 1);

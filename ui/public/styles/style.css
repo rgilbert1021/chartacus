@@ -1,181 +1,212 @@
-.nyi {text-decoration:line-through}
+/* GLOBAL STYLES
+-------------------------------------------------- */
+/* Padding below the footer and lighter body text */
 
-
-body{
-  padding: 0px;
-  min-height: 100%;
-  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-/*  background-image: url("/images/bg_developers.jpg");
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: 50% 50%;*/
+body {
+  padding-bottom: 40px;
+  color: #5a5a5a;
 }
 
-.header a{
-  color: white;
+.header h1{
+    font-size: 86px;
+    margin-top: 50px;
+    color: #0088cc;
 }
 .header {
-  background: #FFA84E;
-  padding: 20px;
-  box-shadow: 3px 3px 5px 3px #666;
-  text-shadow: 1px 2px 3px #666;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-.header h1 {
-  font-size: 86px;
-  padding-top: 20px;
+/* Carousel base class */
+.carousel {
+  margin-bottom: 30px;
 }
 
-.content h2 {
-  text-align: center;
-  color: rgb(51, 51, 51);
-}
-
-.tagline {
-  color: white;
-}
-
-.content{
-  margin-top: 15px;
-  min-height: 300px;  
-  height: 100%;
-  padding-bottom: 200px;
-  background: rgba(256, 256, 256, .95);
-  text-shadow: 1px 2px 3px #666;
-}
-
-.footer {
-  padding-top:40px;
-  padding-bottom: 40px;
-  background: rgb(51, 51, 51);
-  color: white;
-}
-
-.footer ul {
-  text-align: center;
-    list-style-type: none;
-}
-
-.footer a {
-    color: white;
-}
-
-.group {
-  margin-bottom: 1em;
-}
-
-.axis {
-  font: 10px sans-serif;
-  color: white;
-  position: fixed;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.axis text {
-  -webkit-transition: fill-opacity 250ms linear;
-}
-
-.axis path {
-  display: none;
-}
-
-.axis line {
-  stroke: rgba(256, 256, 256, .95);
-  shape-rendering: crispEdges;
-}
-
-.axis.top {
-/*  background-image: linear-gradient(top, #fff 0%, rgba(255,255,255,0) 100%);
-  background-image: -o-linear-gradient(top, #fff 0%, rgba(255,255,255,0) 100%);
-  background-image: -moz-linear-gradient(top, #fff 0%, rgba(255,255,255,0) 100%);
-  background-image: -webkit-linear-gradient(top, #fff 0%, rgba(255,255,255,0) 100%);
-  background-image: -ms-linear-gradient(top, #fff 0%, rgba(255,255,255,0) 100%);*/
-  top: 0px;
-  padding: 0 0 24px 0;
-}
-
-.axis.bottom {
- /* background-image: linear-gradient(bottom, #fff 0%, rgba(255,255,255,0) 100%);
-  background-image: -o-linear-gradient(bottom, #fff 0%, rgba(255,255,255,0) 100%);
-  background-image: -moz-linear-gradient(bottom, #fff 0%, rgba(255,255,255,0) 100%);
-  background-image: -webkit-linear-gradient(bottom, #fff 0%, rgba(255,255,255,0) 100%);
-  background-image: -ms-linear-gradient(bottom, #fff 0%, rgba(255,255,255,0) 100%);
-*/  
-  bottom: 0px;
-  padding: 24px 0 0 0;
-}
-
-.horizon {
-  border-bottom: solid 1px #666;
-  overflow: hidden;
-  position: relative;
-}
-
-.horizon {
-  border-top: solid 1px #666;
-  border-bottom: solid 1px #666;
-}
-
-.horizon + .horizon {
-  border-top: none;
-}
-
-.horizon canvas {
-  display: block;
-}
-
-.horizon .title,
-.horizon .value {
-  bottom: 0;
-  line-height: 30px;
-  margin: 0 6px;
+.carousel .container {
   position: absolute;
-  text-shadow: 0 1px 0 rgba(255,255,255,.5);
-  white-space: nowrap;
-  font-size: 14px;
-}
-
-.horizon .title {
+  right: 0;
+  bottom: 0;
   left: 0;
 }
 
-.horizon .value {
-  right: 0;
+.carousel-control {
+  background-color: transparent;
+  border: 0;
+  font-size: 120px;
+  margin-top: 0;
+  text-shadow: 0 1px 1px rgba(0,0,0,.4);
 }
 
-.line {
-  background: #000;
-  z-index: 2;
+.carousel .item {
+  height: 350px;
+}
+.carousel img {
+  min-width: 100%;
+  height: 350px;
 }
 
-#demo {
-  margin-top: 50px;
-  height: 300px;
-  padding: 10px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  border: 1px solid rgba(0,0,0,.5);
-  box-shadow: 1px 1px 1px 1px #666;
+.carousel-caption {
+  background-color: rgba(51,51,51,.70);
+  position: static;
+  max-width: 550px;
+  padding: 0 20px;
+  margin-bottom: 100px;
+  height: 200px;
+}
+.carousel-caption h1,
+.carousel-caption .lead {
+  margin: 0;
+  line-height: 1.25;
+  color: #fff;
+  text-shadow: 0 1px 1px rgba(0,0,0,.4);
+}
+.carousel-caption .btn {
+  margin-top: 10px;
 }
 
-#data{
-  margin-top: 50px;
-  height: 300px;
-  padding: 10px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  border: 1px solid rgba(0,0,0,.5);
-  box-shadow: 1px 1px 1px 1px #666;
+
+
+/* MARKETING CONTENT
+-------------------------------------------------- */
+
+/* Center align the text within the three columns below the carousel */
+.marketing .span4 {
+  text-align: center;
+}
+.marketing h2 {
+  font-weight: normal;
+}
+.marketing .span4 p {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-#key{
-  margin-top: 50px;
-  height: 300px;
-  padding: 10px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
-  border: 1px solid rgba(0,0,0,.5);
-  box-shadow: 1px 1px 1px 1px #666;
+
+/* Featurettes
+------------------------- */
+
+.featurette-divider {
+  margin: 80px 0; /* Space out the Bootstrap <hr> more */
+}
+.featurette {
+  padding-top: 120px; /* Vertically center images part 1: add padding above and below text. */
+  overflow: hidden; /* Vertically center images part 2: clear their floats. */
+}
+.featurette-image {
+  margin-top: -120px; /* Vertically center images part 3: negative margin up the image the same amount of the padding to center it. */
+}
+
+/* Give some space on the sides of the floated elements so text doesn't run right into it. */
+.featurette-image.pull-left {
+  margin-right: 40px;
+}
+.featurette-image.pull-right {
+  margin-left: 40px;
+}
+
+/* Thin out the marketing headings */
+.featurette-heading {
+  font-size: 50px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.featurette pre {
+    font-size: 20px;
+}
+
+#keyCode, #dataCode {
+    margin-top: 40px;
+}
+
+.key {
+    color: #0088cc;   
+}
+
+#chart{
+    margin-top: 20px;
+    height:150px;
+}
+
+/* RESPONSIVE CSS
+-------------------------------------------------- */
+
+@media (max-width: 979px) {
+
+  .container.navbar-wrapper {
+    margin-bottom: 0;
+    width: auto;
+  }
+  .navbar-inner {
+    border-radius: 0;
+    margin: -20px 0;
+  }
+
+  .carousel .item {
+    height: 500px;
+  }
+  .carousel img {
+    width: auto;
+    height: 500px;
+  }
+
+  .featurette {
+    height: auto;
+    padding: 0;
+  }
+  .featurette-image.pull-left,
+  .featurette-image.pull-right {
+    display: block;
+    float: none;
+    max-width: 40%;
+    margin: 0 auto 20px;
+  }
+}
+
+
+@media (max-width: 767px) {
+
+  .navbar-inner {
+    margin: -20px;
+  }
+
+  .carousel {
+    margin-left: -20px;
+    margin-right: -20px;
+  }
+  .carousel .container {
+
+  }
+  .carousel .item {
+    height: 300px;
+  }
+  .carousel img {
+    height: 300px;
+  }
+  .carousel-caption {
+    width: 65%;
+    padding: 0 70px;
+    margin-bottom: 40px;
+  }
+  .carousel-caption h1 {
+    font-size: 30px;
+  }
+  .carousel-caption .lead,
+  .carousel-caption .btn {
+    font-size: 18px;
+  }
+
+  .marketing .span4 + .span4 {
+    margin-top: 40px;
+  }
+
+  .featurette-heading {
+    font-size: 30px;
+  }
+  .featurette .lead {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
 }

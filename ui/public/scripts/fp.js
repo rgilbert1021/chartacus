@@ -1,41 +1,64 @@
-var context = cubism.context()
-    .step(1000)
-    // .size(500);
+$(document).ready(function() {
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
 
-// d3.select("#demo").selectAll(".axis")
-//     .data(["top", "bottom"])
-//   .enter().append("div")
-//     .attr("class", function(d) { return d + " axis"; })
-//     .each(function(d) { d3.select(this).call(context.axis().ticks(12).orient(d)); });
+    chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'chart',
+            type: 'spline',
+            marginRight: 10
+        },
+        credits: {
+          enabled: false
+        },
+        title: {
+            text: 'Your data per second'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150
+        },
+        yAxis: {
+            title: {
+                text: 'Value'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            formatter: function() {
+                    return '<b>'+ this.series.name +'</b><br/>'+
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) +'<br/>'+
+                    Highcharts.numberFormat(this.y, 2);
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        series: [{
+            name: 'Random data',
+            data: []
+        }]
+    });
 
-// d3.select("#demo").append("div")
-//     .attr("class", "rule")
-//     .call(context.rule());
-
-d3.select("#demo").selectAll(".horizon")
-    .data(d3.range(1, 10).map(random))
-  .enter().insert("div", ".bottom")
-    .attr("class", "horizon")
-    .call(context.horizon().extent([-10, 10]));
-
-context.on("focus", function(i) {
-  d3.selectAll(".value").style("right", "8px");
-  // d3.selectAll(".value").style("right", i == null ? null : context.size() - i + "px");
+    // setInterval(function(){
+    //   var shift = chart.series[0].data.length >= 20 ? true : false;
+    //   chart.series[0].addPoint([(new Date()).getTime(), Math.random()])
+    // }, 1000)
+    socket.on('data-'+uuid, function(data){
+      socket.emit('ack',true);
+      console.log(data);
+      var shift = chart.series[0].data.length >= 20 ? true : false;
+      console.log(typeof data);
+      chart.series[0].addPoint(data, true, shift);
+    });
 });
-
-function random(x) {
-  var value = 0,
-      values = [],
-      i = 0,
-      last;
-  return context.metric(function(start, stop, step, callback) {
-    start = +start, stop = +stop;
-    if (isNaN(last)) last = start;
-    while (last < stop) {
-      last += step;
-      value = Math.max(-10, Math.min(10, value + .8 * Math.random() - .4 + .2 * Math.cos(i += x * .02)));
-      values.push(value);
-    }
-    callback(null, values = values.slice((start - stop) / step));
-  }, x);
-}
