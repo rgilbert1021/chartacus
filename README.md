@@ -41,24 +41,30 @@ $ sudo mkdir -p /data/db/
 $ mongod
 ```
 
-6. Install web server dependencies
+6. Install node.js
+```
+$ Click Install on http://nodejs.org/
+$ Run installer that was just downloaded.
+```
+
+7. Install web server dependencies
 ```
 $ cd [PATH_TO_PROJECT]/ui
 $ npm install
 ```
 
-7. Start the UI server
+8. Start the UI server
 ```
 $ node server.js
 ```
 
-8. Install TCP server dependencies
+9. Install TCP server dependencies
 ```
 $ cd [PATH_TO_PROJECT]/api/tcp
 $ npm install
 ```
 
-9. Start TCP API listener
+10. Start TCP API listener
 ```
 $ node listener
 ```
